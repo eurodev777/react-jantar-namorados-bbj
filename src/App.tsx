@@ -1,10 +1,6 @@
 import { useState, useRef, useEffect, ChangeEvent, FormEvent } from 'react';
 import { 
   Heart, 
-  Music, 
-  Sparkles, 
-  Camera, 
-  Phone, 
   MapPin, 
   Play, 
   Pause, 
@@ -12,108 +8,142 @@ import {
   VolumeX, 
   X, 
   Check, 
-  Calendar, 
-  Clock, 
-  Users, 
-  ArrowRight,
-  ChevronRight,
-  Info
+  Info,
+  ArrowRight
 } from 'lucide-react';
 
-// Custom Botanical gold graphics drawn inline for performance and style preservation
-const BotanicalGoldDecor = ({ className }: { className?: string }) => (
+/* ============================================================================
+   HIGH-FIDELITY BOTANICAL ILLUSTRATIONS (OUTLINES MATCHING CANVA DESIGNS)
+   ============================================================================ */
+
+// Elegant rising gold floral stem for Slide 2 (Right margin)
+const BotanicalRightVertical = ({ className }: { className?: string }) => (
   <svg
     className={className}
-    viewBox="0 0 120 120"
+    viewBox="0 0 150 400"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path 
-      d="M10 110 C30 80, 50 50, 110 10" 
-      stroke="#cfa15c" 
-      strokeWidth="1.2" 
-      strokeLinecap="round" 
-      opacity="0.85"
+    {/* Stem */}
+    <path
+      d="M130 380 Q90 280, 100 150 T120 20"
+      stroke="#dda86a"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      opacity="0.75"
     />
-    <path 
-      d="M50 65 C40 55, 30 52, 15 50 C25 45, 38 48, 48 60 Z" 
-      fill="#cfa15c" 
-      fillOpacity="0.08" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
+    
+    {/* Branchlet 1 */}
+    <path
+      d="M102 260 Q60 220, 20 210"
+      stroke="#dda86a"
+      strokeWidth="1"
+      strokeLinecap="round"
+      opacity="0.65"
     />
-    <path 
-      d="M75 40 C65 30, 55 28, 40 25 C50 20, 63 23, 72 35 Z" 
-      fill="#cfa15c" 
-      fillOpacity="0.08" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
+    {/* Leaves on Branchlet 1 */}
+    <path d="M20 210 C15 200, 25 190, 35 200 C30 208, 25 212, 20 210 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    <path d="M50 215 C45 200, 58 195, 65 210 Q58 218, 50 215 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    
+    {/* Branchlet 2 */}
+    <path
+      d="M104 180 Q60 140, 35 90"
+      stroke="#dda86a"
+      strokeWidth="1"
+      strokeLinecap="round"
+      opacity="0.65"
     />
-    <path 
-      d="M90 25 C92 18, 100 15, 105 20 C110 25, 105 32, 98 30 C95 35, 88 38, 85 32 C82 28, 85 24, 90 25 Z" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
-      fill="#cfa15c" 
-      fillOpacity="0.1" 
-    />
-    <circle cx="92" cy="27" r="1.5" fill="#f5efe6" />
-    <path 
-      d="M30 85 C22 80, 15 82, 8 85 C12 78, 20 74, 28 80 Z" 
-      fill="#cfa15c" 
-      fillOpacity="0.08" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
-    />
-    <circle cx="102" cy="12" r="2" fill="#cfa15c" />
-    <circle cx="60" cy="55" r="1.5" fill="#cfa15c" />
-    <circle cx="38" cy="72" r="1.5" fill="#cfa15c" />
+    {/* Leaves on Branchlet 2 */}
+    <path d="M35 90 C25 85, 30 70, 42 78 C40 85, 38 89, 35 90 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    <path d="M65 125 C55 115, 68 100, 75 115 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+
+    {/* Flowers / Bud elements along primary stem */}
+    <circle cx="112" cy="110" r="4" stroke="#dda86a" strokeWidth="0.8" fill="#4a3126" />
+    <path d="M112 106 Q116 95, 125 100 T112 114" stroke="#dda86a" strokeWidth="0.8" opacity="0.8" />
+    
+    <circle cx="98" cy="220" r="3" stroke="#dda86a" strokeWidth="0.8" fill="#4a3126" />
+    <circle cx="106" cy="310" r="4.5" stroke="#dda86a" strokeWidth="0.8" fill="#4a3126" />
+
+    {/* Delicate leaf groupings on top */}
+    <path d="M120 20 C110 5, 130 0, 135 15 C130 22, 125 22, 120 20 Z" fill="#dda86a" fillOpacity="0.15" stroke="#dda86a" strokeWidth="0.8" />
   </svg>
 );
 
-const BotanicalRoseDecor = ({ className }: { className?: string }) => (
+// Elegant horizontal gold foliage branch for Slide 3 (Bottom-left margin)
+const BotanicalLeftBranch = ({ className }: { className?: string }) => (
   <svg
     className={className}
-    viewBox="0 0 100 100"
+    viewBox="0 0 350 120"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path 
-      d="M10 90 C 25 75, 45 60, 80 40" 
-      stroke="#cfa15c" 
-      strokeWidth="1" 
-      strokeLinecap="round" 
-      opacity="0.7"
+    {/* Main lateral stem */}
+    <path
+      d="M10 60 Q120 30, 320 50"
+      stroke="#dda86a"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      opacity="0.75"
     />
-    <path 
-      d="M48 68 C 42 55, 34 50, 20 52 C 26 44, 38 42, 45 55 Z" 
-      fill="#cfa15c" 
-      fillOpacity="0.05" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
-    />
-    <path 
-      d="M75 42 C 60 40, 52 32, 54 18 C 62 25, 68 35, 72 40 Z" 
-      fill="#cfa15c" 
-      fillOpacity="0.05" 
-      stroke="#cfa15c" 
-      strokeWidth="0.8" 
-    />
-    <path 
-      d="M82 35 C 80 25, 75 12, 85 8 C 92 12, 90 28, 80 32" 
-      stroke="#cfa15c" 
-      strokeWidth="1" 
-      fill="#cfa15c" 
-      fillOpacity="0.08" 
-    />
+    
+    {/* Leaf upward 1 */}
+    <path d="M80 48 Q95 20, 115 32 Q100 45, 80 48 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    
+    {/* Leaf downward 1 */}
+    <path d="M120 51 Q135 80, 155 70 Q140 55, 120 51 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    
+    {/* Leaf upward 2 */}
+    <path d="M190 44 Q210 10, 230 25 Q215 40, 190 44 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+
+    {/* Leaf downward 2 */}
+    <path d="M230 46 Q255 78, 275 65 Q255 50, 230 46 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+
+    {/* Final leaf bud at tip */}
+    <path d="M320 50 Q340 45, 345 53 Q330 62, 320 50 Z" fill="#dda86a" fillOpacity="0.15" stroke="#dda86a" strokeWidth="0.8" />
   </svg>
 );
+
+// Diagonal botanical blossom for Slide 4 (Bottom-right corner)
+const BotanicalCorner = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 200 200"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Bottom right stem stretching up-left */}
+    <path
+      d="M190 190 C150 150, 100 130, 20 110"
+      stroke="#dda86a"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      opacity="0.7"
+    />
+    
+    {/* Small flower bud 1 */}
+    <circle cx="95" cy="122" r="5" stroke="#dda86a" strokeWidth="0.8" fill="#4a3126" />
+    <path d="M91 118 Q80 110, 95 105 T101 126" stroke="#dda86a" strokeWidth="0.7" />
+
+    {/* Small flower bud 2 */}
+    <circle cx="150" cy="142" r="4" stroke="#dda86a" strokeWidth="0.8" fill="#4a3126" />
+
+    {/* Elegant leaves */}
+    <path d="M50 115 C40 100, 30 110, 20 110 C30 118, 42 122, 50 115 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+    <path d="M120 130 C110 110, 95 115, 85 120 C100 132, 110 135, 120 130 Z" fill="#dda86a" fillOpacity="0.1" stroke="#dda86a" strokeWidth="0.8" />
+  </svg>
+);
+
+
+/* ============================================================================
+   MAIN COMPONENT
+   ============================================================================ */
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coupleName, setCoupleName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [time, setTime] = useState('19:30');
-  const [seating, setSeating] = useState('Piano Bar');
+  const [seating, setSeating] = useState('Salão Piano Bar 🎹');
   const [dietary, setDietary] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -123,7 +153,7 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(10); // default fallback
 
   // Handle Play/Pause
   const handlePlayPause = () => {
@@ -213,22 +243,19 @@ export default function App() {
   };
 
   return (
-    <div id="landing-page-root" class="min-h-screen bg-[#1c0f0a] flex flex-col selection:bg-[#cfa15c] selection:text-white relative">
+    <div id="landing-page-root" class="min-h-screen bg-[#4a3126] flex flex-col selection:bg-[#dda86a] selection:text-white relative">
       
       {/* =========================================
           LÂMINA 1: HOME / HERO SECTION
           ========================================= */}
-      <section id="lamina-1" class="relative min-h-screen md:h-screen flex flex-col md:flex-row overflow-hidden border-b border-[#2e2019]">
+      <section id="lamina-1" class="relative min-h-screen md:h-screen flex flex-col md:flex-row overflow-hidden border-b border-[#3b241b]">
         
-        {/* Left Side: Campaign Intro */}
-        <div class="w-full md:w-1/2 min-h-[50vh] md:min-h-full bg-[#140a06] px-6 py-12 md:p-16 lg:p-24 flex flex-col justify-between relative z-10">
-          
-          {/* Decorative Corner Art */}
-          <BotanicalGoldDecor className="absolute -top-4 -left-4 w-28 h-28 transform rotate-90 opacity-20 pointer-events-none" />
+        {/* Left Side: Campaign Intro (Rich deep dark backdrop to isolate campaign beautifully) */}
+        <div class="w-full md:w-1/2 min-h-[50vh] md:min-h-full bg-[#120905] px-6 py-12 md:p-16 lg:p-24 flex flex-col justify-between relative z-10">
           
           {/* Top Date Header */}
-          <div class="text-center md:text-left">
-            <span class="text-[#cfa15c] font-sans-lux text-xs md:text-sm tracking-[0.3em] font-semibold uppercase block drop-shadow-sm">
+          <div class="text-center md:text-left mt-4 md:mt-0">
+            <span class="text-[#dda86a] font-sans-lux text-xs md:text-sm tracking-[0.35em] font-medium uppercase block">
               12 de Junho
             </span>
           </div>
@@ -236,52 +263,51 @@ export default function App() {
           {/* Main Titles Area */}
           <div class="my-auto py-10 md:py-0 flex flex-col items-center md:items-start text-center md:text-left">
             
-            {/* Elegant Script 'jantar' */}
-            <div class="relative">
-              <h1 class="font-script text-8xl md:text-9xl text-[#cfa15c] leading-none select-none drop-shadow-lg">
-                jantar
-              </h1>
-              {/* Optional tiny elegant gold heart positioned organically */}
-              <span class="absolute right-0 bottom-4 text-[#cfa15c] text-3xl animate-pulse">
-                ♥
+            {/* Elegant Signature Logo 'jantar namorados' with Attached Outline Gold Heart */}
+            <div class="relative flex flex-col items-center md:items-start select-none mb-10">
+              <div class="flex items-end relative">
+                <span class="font-script text-[95px] md:text-[120px] text-[#dda86a] leading-[0.55] select-none block tracking-normal">
+                  jantar
+                </span>
+                {/* Elegant Gold Outline Heart attached to the 'r' like in the original Canva logo */}
+                <svg className="w-10 h-10 md:w-12 md:h-12 text-[#dda86a] fill-none stroke-current stroke-[1.2] block -ml-3 mb-1.5 origin-bottom rotate-12" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+              </div>
+              <span class="font-serif-lux text-[26px] md:text-[34px] text-[#dda86a] leading-none tracking-[0.25em] -mt-1 block lowercase font-light">
+                namorados
               </span>
             </div>
 
-            {/* Overlapping Serif 'namorados' */}
-            <h2 class="font-serif-lux text-4xl md:text-5xl text-[#dbd3c9] tracking-[0.15em] uppercase -mt-4 mb-8 select-none font-light">
-              namorados
-            </h2>
+            {/* Luxurious Quote parsed line-by-line exactly matching image typography */}
+            <div class="font-serif-lux text-lg md:text-2xl text-white tracking-[0.18em] leading-relaxed uppercase mb-12 max-w-md font-light">
+              <div>O melhor presente</div>
+              <div>é viver momentos</div>
+              <div class="text-[#dda86a] font-semibold">JUNTOS.</div>
+            </div>
 
-            {/* Luxurious Quote */}
-            <p class="font-serif-lux text-base md:text-lg text-[#ebe5df] leading-relaxed max-w-md tracking-wider mb-10">
-              O MELHOR PRESENTE É VIVER MOMENTOS <span class="text-[#cfa15c] font-semibold">JUNTOS.</span>
-            </p>
-
-            {/* CTA Button */}
+            {/* CTA Button is a flat, solid white rounded pill with dark text matching Canva template */}
             <button 
-              id="btn-cta-l1"
               onClick={openReserveModal}
-              class="group relative bg-[#f5efe6] text-[#2c1b15] hover:bg-[#cfa15c] hover:text-white border border-[#cfa15c]/20 rounded-full py-3.5 px-9 text-xs md:text-sm font-sans-lux tracking-[0.2em] font-semibold uppercase shadow-[0_8px_25px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              class="bg-white text-[#120905] hover:bg-[#dda86a] hover:text-white rounded-full py-4 px-10 text-xs md:text-sm font-sans-lux tracking-[0.22em] font-bold uppercase shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 transform hover:scale-[1.03] active:scale-97 cursor-pointer"
             >
-              Garanta Sua Reserva
-              <span class="absolute -top-1 -right-1 w-3 h-3 bg-[#cfa15c] rounded-full animate-ping group-hover:bg-[#f5efe6]"></span>
+              GARANTA SUA RESERVA
             </button>
           </div>
 
-          {/* Location Hint footer of column */}
-          <div class="text-center md:text-left flex items-center justify-center md:justify-start gap-2 text-[#968176] text-xs font-sans-lux tracking-wider mt-4">
-            <MapPin className="w-4 h-4 text-[#cfa15c]" />
-            <span>Baby Beef Jardim • Santo André - SP</span>
+          {/* Location Hint footer at base of column */}
+          <div class="text-center md:text-left text-[#7c6659] text-[11px] font-sans-lux tracking-[0.15em] uppercase mt-4">
+            Baby Beef Jardim • Santo André - SP
           </div>
         </div>
 
-        {/* Right Side: Custom Romantic Video Player (占 metade da tela / exact half width) */}
-        <div class="w-full md:w-1/2 h-[50vh] md:h-full relative bg-[#090403] group overflow-hidden">
+        {/* Right Side: Custom Romantic Video Player (Taking exactly 50% width on Desktop as requested) */}
+        <div class="w-full md:w-1/2 h-[50vh] md:h-full relative bg-black group overflow-hidden">
           
           <video
             ref={videoRef}
             src="https://assets.mixkit.co/videos/preview/mixkit-romantic-couple-by-candlelight-having-dinner-40139-large.mp4"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover"
             loop
             muted={isMuted}
             onTimeUpdate={handleTimeUpdate}
@@ -289,129 +315,55 @@ export default function App() {
             playsInline
           />
 
-          {/* Deep Luxurious Shadow Overlays */}
-          <div class="absolute inset-0 bg-gradient-to-t from-[#140a06]/90 via-transparent to-[#140a06]/40 pointer-events-none" />
-          <div class="absolute inset-0 bg-black/20 pointer-events-none" />
+          {/* Symmetrical darkened aesthetic overlay gradients */}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
-          {/* Elegant Handmade Title Overlaid exact like reference */}
-          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-40">
-            <span class="font-script text-white text-5xl md:text-7xl lg:text-8xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)] text-center block rotate-[-3deg]">
+          {/* Floating handmade brush-script text in the center, exact as in sample */}
+          <div class="absolute inset-x-0 top-[40%] -translate-y-1/2 flex flex-col items-center justify-center pointer-events-none z-10">
+            <span class="font-script text-white text-6xl md:text-7xl lg:text-8xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] text-center block rotate-[-3deg] select-none">
               Dia dos Namorados
             </span>
           </div>
 
-          {/* Big Center Play Pause Overlay for interactivity */}
+          {/* Central translucent Play/Pause Toggle overlay button */}
           <button 
             onClick={handlePlayPause}
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#cfa15c]/95 text-white p-5 rounded-full backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 shadow-[0_4px_20px_rgba(0,0,0,0.4)] cursor-pointer z-20"
-            aria-label="Play or Pause Romantic Video"
+            class="absolute top-[62%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#dda86a] text-white p-4 rounded-full backdrop-blur-md transition-all duration-300 shadow-[0_4px_15px_rgba(0,0,0,0.5)] border border-white/20 cursor-pointer z-20"
+            aria-label="Play or Pause video"
           >
             {isPlaying ? (
-              <Pause className="w-8 h-8 fill-current" />
+              <Pause className="w-6 h-6 fill-current" />
             ) : (
-              <Play className="w-8 h-8 fill-current ml-0.5" />
+              <Play className="w-6 h-6 fill-current ml-0.5" />
             )}
           </button>
 
-          {/* Video Control Bar mimicking Canva's custom player interface exactly */}
-          <div class="absolute bottom-5 inset-x-6 z-20 flex flex-col gap-2 bg-black/40 backdrop-blur-sm p-3.5 rounded-xl border border-white/10 shadow-2xl opacity-90 transition-all duration-350 hover:bg-black/60">
-            
-            {/* Top Bar Slider Timeline of current view */}
-            <div class="flex items-center gap-3">
-              <span class="text-[10px] font-sans-lux text-white/70 select-none">
+          {/* Minimalist Slide 1 Control bar inspired from the custom video design */}
+          <div class="absolute bottom-6 inset-x-6 z-20 flex items-center justify-between bg-[#120905]/70 backdrop-blur-md py-3 px-4 rounded-xl border border-white/10">
+            <div class="flex items-center gap-3 flex-1 mr-4">
+              <span class="text-[10px] font-sans-lux text-white/80 font-medium select-none">
                 {Math.floor(currentTime / 60)}:{( '0' + Math.floor(currentTime % 60) ).slice(-2)}
               </span>
               <input
                 type="range"
                 min="0"
-                max={duration || 100}
+                max={duration || 10}
                 value={currentTime}
                 onChange={handleProgressChange}
-                className="flex-1 accent-[#cfa15c] h-1 bg-white/20 rounded-lg cursor-pointer transform transition-all duration-200"
+                className="flex-1 accent-[#dda86a] h-0.5 bg-white/20 rounded-lg cursor-pointer transition-colors"
               />
-              <span class="text-[10px] font-sans-lux text-white/70 select-none">
-                {Math.floor(duration / 60)}:{( '0' + Math.floor(duration % 60) ).slice(-2)}
-              </span>
             </div>
-
-            {/* Play controls / Audio Mute bar at the base of the player */}
-            <div class="flex items-center justify-between mt-1">
-              <div class="flex gap-2">
-                <button 
-                  onClick={handlePlayPause}
-                  class="text-white hover:text-[#cfa15c] p-1.5 transition duration-200 rounded-lg hover:bg-white/5 active:scale-95"
-                  title={isPlaying ? "Pausar" : "Reproduzir"}
-                >
-                  {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                </button>
-                <div class="text-[11px] font-sans-lux tracking-wider text-white/80 self-center uppercase font-medium">
-                  {isPlaying ? "Transmissão Ativa" : "Pausado"}
-                </div>
-              </div>
-
-              {/* Mute toggle button right bottom corner exact like placeholder */}
-              <button
-                onClick={handleMuteToggle}
-                class="text-white hover:text-[#cfa15c] p-1.5 transition duration-200 rounded-lg hover:bg-white/5 active:scale-95 flex items-center justify-center"
-                title={isMuted ? "Ativar Som" : "Mudar para o Silencioso"}
-              >
-                {isMuted ? (
-                  <VolumeX className="w-4 h-4 text-white/90" />
-                ) : (
-                  <Volume2 className="w-4 h-4 text-[#cfa15c]" />
-                )}
-              </button>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      {/* =========================================
-          LÂMINA 2: APRESENTAÇÃO / INVITATION
-          ========================================= */}
-      <section id="lamina-2" class="relative bg-[#20130d] py-20 px-6 md:py-28 md:px-16 flex flex-col items-center justify-center text-center overflow-hidden border-b border-[#301e16]">
-        
-        {/* Corner Botanicals */}
-        <BotanicalGoldDecor className="absolute top-10 right-10 w-32 h-32 opacity-15 pointer-events-none transform -rotate-12" />
-        <BotanicalRoseDecor className="absolute -bottom-8 left-12 w-40 h-40 opacity-10 pointer-events-none transform rotate-45" />
-
-        {/* Outer Framer Container with Gold accents */}
-        <div class="max-w-3xl mx-auto flex flex-col items-center relative z-10">
-          
-          <Heart className="w-8 h-8 text-[#cfa15c] mb-6 animate-pulse" />
-          
-          {/* Main Segment Header in Italicized Gold Serif */}
-          <h3 class="font-serif-lux italic text-2xl md:text-3xl text-[#cfa15c] leading-relaxed font-light mb-10 max-w-2xl">
-            Uma noite para celebrar o amor no Baby Beef Jardim
-          </h3>
-
-          {/* Prose blocks faithfully restored from the Canva content */}
-          <div class="space-y-8 font-serif-lux text-base md:text-lg text-[#ece5dd]/95 leading-relaxed tracking-wide text-center">
             
-            <p class="font-normal">
-              O Dia dos Namorados é uma data especial, feita para celebrar os sentimentos mais profundos, os gestos de carinho e as histórias que unem dois corações. Pensando nisso, o <span class="text-[#cfa15c] font-semibold">Baby Beef Jardim</span> preparou uma noite inesquecível para os casais que desejam transformar esse momento em uma verdadeira experiência sensorial.
-            </p>
-
-            <p class="font-light">
-              No dia 12 de junho, o restaurante abre suas portas para uma celebração à altura do amor: uma noite de sabores marcantes, ambiente sofisticado e experiências pensadas com todo o cuidado que essa data merece.
-            </p>
-
-            <p class="font-light">
-              Cada detalhe foi cuidadosamente planejado para tornar a sua noite ainda mais especial. Dos ingredientes selecionados à apresentação dos pratos, da trilha sonora ao clima intimista de cada espaço. O Baby Beef Jardim será o cenário ideal para celebrar o amor com intensidade, sabor e sofisticação.
-            </p>
-
-          </div>
-
-          {/* Center Column Button */}
-          <div class="mt-14">
-            <button 
-              id="btn-cta-l2"
-              onClick={openReserveModal}
-              class="bg-[#f5efe6] text-[#2c1b15] hover:bg-[#cfa15c] hover:text-white border border-[#cfa15c]/25 rounded-full py-3.5 px-9 text-xs md:text-sm font-sans-lux tracking-[0.2em] font-semibold uppercase shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            <button
+              onClick={handleMuteToggle}
+              class="text-white hover:text-[#dda86a] transition"
+              aria-label="Mute toggle"
             >
-              Garanta Sua Reserva
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-white/70" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-[#dda86a]" />
+              )}
             </button>
           </div>
 
@@ -420,107 +372,135 @@ export default function App() {
 
 
       {/* =========================================
-          LÂMINA 3: ATRAÇÕES / EXCLUSIVE ACTIVITIES
+          LÂMINA 2: APRESENTAÇÃO / INVITATION
           ========================================= */}
-      <section id="lamina-3" class="relative bg-[#2c1a12] py-20 px-6 md:py-28 md:px-16 lg:px-24 overflow-hidden border-b border-[#3b2419]">
+      <section id="lamina-2" class="relative bg-[#4a3126] py-20 px-6 md:py-28 md:px-16 flex flex-col items-center justify-center text-center overflow-hidden border-b border-[#3b241b]">
         
-        {/* Background Foliage art */}
-        <BotanicalGoldDecor className="absolute bottom-10 right-4 w-36 h-36 opacity-15 transform rotate-[210deg] pointer-events-none" />
-        <BotanicalRoseDecor className="absolute -top-10 left-10 w-40 h-40 opacity-15 transform -rotate-45 pointer-events-none" />
+        {/* Subtle, beautiful gold flower branch rising at right margin */}
+        <BotanicalRightVertical className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-full opacity-35 max-w-[20%] pointer-events-none hidden lg:block" />
+
+        {/* Main invitation card content */}
+        <div class="max-w-3xl mx-auto flex flex-col items-center relative z-10">
+          
+          {/* Elegant Subtitle in golden cursive / serif structure */}
+          <h3 class="font-serif-lux italic text-xl md:text-2xl text-[#fdfbf7] leading-relaxed font-light mb-12 max-w-2xl">
+            Uma noite para celebrar o amor no Baby Beef Jardim
+          </h3>
+
+          {/* Prose description blocks precisely aligned with Canva copies */}
+          <div class="space-y-8 font-serif-lux text-base md:text-lg text-[#fefdfb]/90 leading-relaxed tracking-wide text-center">
+            
+            <p>
+              O Dia dos Namorados é uma data especial, feita para celebrar os sentimentos mais profundos, os gestos de carinho e as histórias que unem dois corações. Pensando nisso, o <strong class="text-[#dda86a] font-medium">Baby Beef Jardim</strong> preparou uma noite inesquecível para os casais que desejam transformar esse momento em uma verdadeira experiência sensorial.
+            </p>
+
+            <p>
+              No dia 12 de junho, o restaurante abre suas portas para uma celebração à altura do amor: uma noite de sabores marcantes, ambiente sofisticado e experiências pensadas com todo o cuidado que essa data merece.
+            </p>
+
+            <p>
+              Cada detalhe foi cuidadosamente planejado para tornar a sua noite ainda mais especial. Dos ingredientes selecionados à apresentação dos pratos, da trilha sonora ao clima intimista de cada espaço. O Baby Beef Jardim será o cenário ideal para celebrar o amor com intensidade, sabor e sofisticação.
+            </p>
+
+          </div>
+
+          {/* CTA Button in Slide 2 */}
+          <div class="mt-14">
+            <button 
+              onClick={openReserveModal}
+              class="bg-white text-[#4a3126] hover:bg-[#dda86a] hover:text-white rounded-full py-4 px-10 text-xs md:text-sm font-sans-lux tracking-[0.22em] font-bold uppercase shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-97 cursor-pointer"
+            >
+              GARANTA SUA RESERVA
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =========================================
+          LÂMINA 3: ATRAÇÕES / EXCLUSIVE ATTRACTIONS
+          ========================================= */}
+      <section id="lamina-3" class="relative bg-[#4a3126] py-20 px-6 md:py-28 md:px-16 lg:px-24 overflow-hidden border-b border-[#3b241b]">
+        
+        {/* Decorative horizontal gold flower stem at the bottom-left edge */}
+        <BotanicalLeftBranch className="absolute left-4 bottom-4 w-60 h-28 opacity-35 pointer-events-none hidden md:block" />
 
         <div class="max-w-6xl mx-auto relative z-10">
           
+          {/* Section Header */}
           <div class="text-center mb-16">
-            <h3 class="font-serif-lux text-3xl md:text-4xl lg:text-4.5xl text-[#dbd3c9] tracking-wide font-light">
+            <h3 class="font-serif-lux text-2xl md:text-3.5xl text-[#fdfbf7] tracking-wider font-light uppercase">
               Conheça nossas atividades exclusivas.
             </h3>
-            <div class="w-16 h-0.5 bg-[#cfa15c] mx-auto mt-4 rounded-full opacity-65"></div>
           </div>
 
+          {/* Double Columns Grid */}
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Left Side: Generated Piano Bar Room Lounge image with beautiful gold frame */}
+            {/* Left Column: Intimate dining image styled in a double border luxury frame */}
             <div class="lg:col-span-6 flex justify-center">
-              <div class="relative group">
-                {/* Frame border highlight */}
-                <div class="absolute -inset-2 rounded-2xl bg-[#cfa15c]/15 blur-sm opacity-75 group-hover:bg-[#cfa15c]/25 transition duration-300"></div>
+              <div class="relative w-full max-w-md">
                 
-                {/* Image card wrapper */}
-                <div class="relative bg-[#1c0f0a] border border-[#cfa15c]/40 p-2 rounded-xl shadow-2xl overflow-hidden aspect-[4/3] max-w-lg">
+                {/* Double frame design - Outermost thin gold line rectangle */}
+                <div class="relative p-2.5">
+                  <div class="absolute inset-0 border border-[#dda86a] rounded-2xl opacity-80"></div>
+                  
+                  {/* Rounded image frame */}
                   <img
                     src="/src/assets/images/piano_bar_interior_1780503662491.png"
-                    alt="Piano Bar Lounge Baby Beef Jardim"
-                    className="w-full h-full object-cover rounded-lg transition duration-700 group-hover:scale-[1.03]"
+                    alt="Interior sofisticado do Baby Beef Jardim"
+                    className="w-full aspect-[4/3] object-cover rounded-xl shadow-xl relative z-10 block"
                   />
-                  
-                  {/* Frosted Glass Floating Tag */}
-                  <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 py-1.5 px-3 rounded-lg text-white text-[10px] md:text-xs font-sans-lux tracking-wider uppercase font-medium">
-                    🎵 Piano Lounge Bar
-                  </div>
                 </div>
+
               </div>
             </div>
 
-            {/* Right Side: Features listing */}
-            <div class="lg:col-span-6 space-y-10">
+            {/* Right Column: Descriptions list exact to the image text layout */}
+            <div class="lg:col-span-6 space-y-10 text-left">
               
               {/* Feature 1 */}
-              <div class="flex gap-4 group">
-                <div class="flex-none w-10 h-10 rounded-full bg-[#3d271d] border border-[#cfa15c]/30 flex items-center justify-center text-[#cfa15c] group-hover:bg-[#cfa15c] group-hover:text-white transition duration-300 shadow-md">
-                  <Music className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 class="font-serif-lux text-xl text-[#f5efe6] font-medium tracking-wide mb-2 group-hover:text-[#cfa15c] transition duration-200">
-                    Música ao piano
-                  </h4>
-                  <p class="font-sans-lux text-sm md:text-base text-[#9c897f] leading-relaxed font-light">
-                    Uma trilha sonora envolvente para acompanhar cada instante do jantar, tornando a experiência ainda mais romântica e sofisticada.
-                  </p>
-                </div>
+              <div>
+                <h4 class="font-serif-lux text-lg md:text-xl text-[#dda86a] font-semibold tracking-wide mb-2">
+                  Música ao piano
+                </h4>
+                <p class="font-sans-lux text-sm md:text-base text-[#fdfbf7]/90 leading-relaxed font-light">
+                  Uma trilha sonora envolvente para acompanhar cada instante do jantar, tornando a experiência ainda mais romântica e sofisticada.
+                </p>
               </div>
 
               {/* Feature 2 */}
-              <div class="flex gap-4 group">
-                <div class="flex-none w-10 h-10 rounded-full bg-[#3d271d] border border-[#cfa15c]/30 flex items-center justify-center text-[#cfa15c] group-hover:bg-[#cfa15c] group-hover:text-white transition duration-300 shadow-md">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 class="font-serif-lux text-xl text-[#f5efe6] font-medium tracking-wide mb-2 group-hover:text-[#cfa15c] transition duration-200">
-                    Decoração especial
-                  </h4>
-                  <p class="font-sans-lux text-sm md:text-base text-[#9c897f] leading-relaxed font-light">
-                    Um ambiente cuidadosamente preparado para celebrar o amor com elegância, charme e beleza em cada detalhe.
-                  </p>
-                </div>
+              <div>
+                <h4 class="font-serif-lux text-lg md:text-xl text-[#dda86a] font-semibold tracking-wide mb-2">
+                  Decoração especial
+                </h4>
+                <p class="font-sans-lux text-sm md:text-base text-[#fdfbf7]/90 leading-relaxed font-light">
+                  Um ambiente cuidadosamente preparado para celebrar o amor com elegância, charme e beleza em cada detalhe.
+                </p>
               </div>
 
               {/* Feature 3 */}
-              <div class="flex gap-4 group">
-                <div class="flex-none w-10 h-10 rounded-full bg-[#3d271d] border border-[#cfa15c]/30 flex items-center justify-center text-[#cfa15c] group-hover:bg-[#cfa15c] group-hover:text-white transition duration-300 shadow-md">
-                  <Camera className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 class="font-serif-lux text-xl text-[#f5efe6] font-medium tracking-wide mb-2 group-hover:text-[#cfa15c] transition duration-200">
-                    Ponto instagramável
-                  </h4>
-                  <p class="font-sans-lux text-sm md:text-base text-[#9c897f] leading-relaxed font-light">
-                    Um espaço exclusivo para registrar esse momento especial e levar para casa uma lembrança à altura da ocasião.
-                  </p>
-                </div>
+              <div>
+                <h4 class="font-serif-lux text-lg md:text-xl text-[#dda86a] font-semibold tracking-wide mb-2">
+                  Ponto instagramável
+                </h4>
+                <p class="font-sans-lux text-sm md:text-base text-[#fdfbf7]/90 leading-relaxed font-light">
+                  Um espaço exclusivo para registrar esse momento especial e levar para casa uma lembrança à altura da ocasião.
+                </p>
               </div>
 
             </div>
 
           </div>
 
-          {/* Button section centered bottom */}
+          {/* CTA Button in Slide 3 */}
           <div class="mt-16 text-center">
             <button 
-              id="btn-cta-l3"
               onClick={openReserveModal}
-              class="bg-[#f5efe6] text-[#2c1b15] hover:bg-[#cfa15c] hover:text-white border border-[#cfa15c]/25 rounded-full py-3.5 px-9 text-xs md:text-sm font-sans-lux tracking-[0.2em] font-semibold uppercase shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              class="bg-white text-[#4a3126] hover:bg-[#dda86a] hover:text-white rounded-full py-4 px-10 text-xs md:text-sm font-sans-lux tracking-[0.22em] font-bold uppercase shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-97 cursor-pointer"
             >
-              Garanta Sua Reserva
+              GARANTA SUA RESERVA
             </button>
           </div>
 
@@ -531,136 +511,86 @@ export default function App() {
       {/* =========================================
           LÂMINA 4: INFORMAÇÕES & RESERVAS (RSVP)
           ========================================= */}
-      <section id="lamina-4" class="relative bg-[#180a05] py-20 px-6 md:py-28 md:px-16 overflow-hidden">
+      <section id="lamina-4" class="relative bg-[#4a3126] py-20 px-6 md:py-28 md:px-16 overflow-hidden">
         
-        {/* Botanical leaf lines to match background borders exact */}
-        <BotanicalGoldDecor className="absolute bottom-20 right-10 w-44 h-44 opacity-20 transform rotate-12 pointer-events-none" />
-        <BotanicalRoseDecor className="absolute left-10 top-1/3 w-32 h-32 opacity-10 transform -rotate-12 pointer-events-none" />
+        {/* Subtle decorative flower branches around Slide 4 edges */}
+        <BotanicalCorner className="absolute right-2 bottom-20 w-32 h-32 opacity-35 pointer-events-none" />
 
         <div class="max-w-5xl mx-auto relative z-10 flex flex-col items-center">
           
-          {/* Top Brand split visual */}
-          <div class="w-full flex flex-col md:flex-row justify-between items-center gap-10 md:gap-16 border-b border-[#311c13] pb-14 mb-14 text-center md:text-left">
+          {/* Logo Heading and Tagline line matching Canva layout */}
+          <div class="w-full flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 border-b border-[#5e4337] pb-12 mb-12">
             
             {/* Left Box: Logo Signature */}
-            <div class="flex-1 flex flex-col items-center md:items-start select-none">
-              <h1 class="font-script text-7xl md:text-8.5xl text-[#cfa15c] leading-none mb-1">
-                jantar
-              </h1>
-              <h2 class="font-serif-lux text-3xl md:text-4.5xl text-[#f5efe6]/90 tracking-[0.1em] uppercase -mt-4 font-light">
+            <div class="flex-none flex flex-col items-center md:items-start select-none">
+              <div class="flex items-end relative">
+                <span class="font-script text-[90px] md:text-[110px] text-[#dda86a] leading-[0.55] select-none block tracking-normal">
+                  jantar
+                </span>
+                <svg className="w-10 h-10 md:w-11 md:h-11 text-[#dda86a] fill-none stroke-current stroke-[1.2] block -ml-3 mb-1 origin-bottom rotate-12" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+              </div>
+              <span class="font-serif-lux text-[24px] md:text-[28px] text-[#dda86a] leading-none tracking-[0.25em] -mt-1 block lowercase font-light">
                 namorados
-              </h2>
+              </span>
             </div>
 
-            {/* Right Box: Absolute Luxury Statement */}
-            <div class="flex-1 max-w-md">
-              <h3 class="font-serif-lux text-xl md:text-2xl text-[#f5efe6] font-normal leading-relaxed tracking-wider">
-                A NOITE MAIS ROMÂNTICA DO ANO <span class="text-[#cfa15c] font-semibold block mt-1">COMEÇA AQUI.</span>
+            {/* Right Box: Bold slogan */}
+            <div class="flex-1 text-center md:text-right max-w-md">
+              <h3 class="font-serif-lux text-xl md:text-2xl text-white font-medium leading-relaxed tracking-wider">
+                A NOITE MAIS ROMÂNTICA DO ANO <span class="text-[#dda86a] font-semibold block mt-1">COMEÇA AQUI.</span>
               </h3>
             </div>
 
           </div>
 
-          {/* Contact Details & Reserve Info Card */}
-          <div class="w-full max-w-4xl bg-[#221008] border border-[#cfa15c]/25 p-8 md:p-12 rounded-2xl shadow-3xl text-center mb-14 relative overflow-hidden">
+          {/* Details wrapper parsed nicely without block cards for exact Canva visual */}
+          <div class="w-full max-w-4xl text-center mb-12 space-y-8">
             
-            {/* Top gold line */}
-            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#cfa15c] to-transparent"></div>
-            
-            <h4 class="font-serif-lux text-2xl text-[#cfa15c] tracking-wide font-normal mb-8">
+            <h4 class="font-serif-lux text-xl md:text-2xl text-[#dda86a] tracking-wider uppercase font-medium">
               Informações e Reservas:
             </h4>
 
-            {/* Active phone numbers grid for interactive tap to dial */}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-center mb-10 max-w-3xl mx-auto">
-              
-              <a 
-                href="tel:1144367869" 
-                class="group p-4 bg-[#140602]/80 hover:bg-[#cfa15c] border border-[#cfa15c]/10 hover:border-[#cfa15c] rounded-xl flex flex-col items-center justify-center gap-2 transition duration-300 active:scale-95 shadow-md"
-              >
-                <Phone className="w-5 h-5 text-[#cfa15c] group-hover:text-white" />
-                <span class="text-xs font-sans-lux text-[#9c897f] group-hover:text-white/80 uppercase tracking-widest">
-                  Telefone Fixo
-                </span>
-                <span class="text-sm font-sans-lux font-medium text-[#f5efe6] group-hover:text-white">
-                  (11) 4436-7869
-                </span>
-              </a>
-
-              <a 
-                href="https://wa.me/5511985540692" 
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group p-4 bg-[#140602]/80 hover:bg-[#cfa15c] border border-[#cfa15c]/10 hover:border-[#cfa15c] rounded-xl flex flex-col items-center justify-center gap-2 transition duration-300 active:scale-95 shadow-md"
-              >
-                <Phone className="w-5 h-5 text-[#cfa15c] group-hover:text-white" />
-                <span class="text-xs font-sans-lux text-[#9c897f] group-hover:text-white/80 uppercase tracking-widest">
-                  WhatsApp 1
-                </span>
-                <span class="text-sm font-sans-lux font-medium text-[#f5efe6] group-hover:text-white">
-                  (11) 98554-0692
-                </span>
-              </a>
-
-              <a 
-                href="https://wa.me/5511940816109" 
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group p-4 bg-[#140602]/80 hover:bg-[#cfa15c] border border-[#cfa15c]/10 hover:border-[#cfa15c] rounded-xl flex flex-col items-center justify-center gap-2 transition duration-300 active:scale-95 shadow-md"
-              >
-                <Phone className="w-5 h-5 text-[#cfa15c] group-hover:text-white" />
-                <span class="text-xs font-sans-lux text-[#9c897f] group-hover:text-white/80 uppercase tracking-widest">
-                  WhatsApp 2
-                </span>
-                <span class="text-sm font-sans-lux font-medium text-[#f5efe6] group-hover:text-white">
-                  (11) 94081-6109
-                </span>
-              </a>
-
-            </div>
-
-            {/* Address bar exact text */}
-            <div class="flex flex-col items-center justify-center gap-3 border-t border-[#311c13] pt-8">
-              <div class="w-8 h-8 rounded-full bg-[#1c0a05] flex items-center justify-center text-[#cfa15c]">
-                <MapPin className="w-4 h-4" />
+            {/* Combined phone numbers written continuously using dividers */}
+            <div class="text-[#fdfbf7] font-sans-lux text-base md:text-xl lg:text-2xl tracking-wide max-w-3xl mx-auto leading-relaxed font-light">
+              <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
+                <a href="tel:1144367869" class="hover:text-[#dda86a] transition whitespace-nowrap">(11) 4436-7869</a>
+                <span class="text-[#dda86a] select-none text-sm hidden sm:inline">|</span>
+                <a href="https://wa.me/5511985540692" target="_blank" rel="noopener noreferrer" class="hover:text-[#dda86a] transition whitespace-nowrap">(11) 98554-0692</a>
+                <span class="text-[#dda86a] select-none text-sm hidden sm:inline">|</span>
+                <a href="https://wa.me/5511940816109" target="_blank" rel="noopener noreferrer" class="hover:text-[#dda86a] transition whitespace-nowrap">(11) 94081-6109</a>
               </div>
-              <p class="font-serif-lux text-base md:text-lg text-[#ece5dd] px-4 max-w-2xl leading-relaxed">
-                Baby Beef Jardim – Rua das Bandeiras, 166, Santo André – SP.
-              </p>
-              <a 
-                href="https://maps.google.com/?q=Baby+Beef+Jardim+Rua+das+Bandeiras+166+Santo+Andre"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-[#cfa15c] hover:text-[#f5efe6] font-sans-lux text-xs uppercase tracking-[0.2em] underline transition mt-1"
-              >
-                Ver no Google Maps
-              </a>
             </div>
+
+            {/* Detailed Address Text below */}
+            <p class="font-serif-lux text-sm md:text-base text-[#fdfbf7]/90 tracking-wide pt-4 max-w-2xl mx-auto leading-relaxed">
+              Baby Beef Jardim – Rua das Bandeiras, 166, Santo André – SP.
+            </p>
 
           </div>
 
-          {/* Final CTA Button on background */}
-          <div class="mb-14">
+          {/* CTA Button in Slide 4 */}
+          <div class="mb-20">
             <button 
-              id="btn-cta-l4"
               onClick={openReserveModal}
-              class="bg-[#f5efe6] text-[#2c1b15] hover:bg-[#cfa15c] hover:text-white border border-[#cfa15c]/25 rounded-full py-3.5 px-9 text-xs md:text-sm font-sans-lux tracking-[0.2em] font-semibold uppercase shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              class="bg-white text-[#4a3126] hover:bg-[#dda86a] hover:text-white rounded-full py-4 px-10 text-xs md:text-sm font-sans-lux tracking-[0.22em] font-bold uppercase shadow-lg transition-all duration-300 transform hover:scale-[1.03] active:scale-97 cursor-pointer"
             >
-              Garanta Sua Reserva
+              GARANTA SUA RESERVA
             </button>
           </div>
 
         </div>
 
-        {/* Footer Black Bar conforming to requirements exact */}
-        <div class="absolute bottom-0 inset-x-0 bg-[#0d0503] border-t border-[#221008] px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] font-sans-lux text-[#7c6659] select-none">
-          <div class="flex items-center gap-2">
-            <span>Condições e suporte</span>
-            <span>|</span>
-            <span>Política de Privacidade</span>
+        {/* Flat black bar exactly matching footer layout of Canva site */}
+        <div class="absolute bottom-0 inset-x-0 bg-black py-4 px-6 md:px-12 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] md:text-[11px] font-sans-lux text-[#8a7266] select-none w-full border-t border-[#120905]">
+          <div class="flex items-center gap-2 tracking-wider">
+            <a href="#" class="hover:text-white transition">Condições e suporte</a>
+            <span class="text-[#554137] select-none">|</span>
+            <a href="#" class="hover:text-white transition">Política de Privacidade</a>
           </div>
-          <div>
-            <span>Criado com o Canva</span>
+          <div class="tracking-widest uppercase">
+            Criado com o Canva
           </div>
         </div>
 
@@ -673,52 +603,52 @@ export default function App() {
       {isModalOpen && (
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
           
-          {/* Backdrop screen filter */}
+          {/* Backdrop */}
           <div 
             onClick={closeReserveModal}
-            class="absolute inset-0 bg-[#070302]/90 backdrop-blur-md cursor-pointer transition-opacity duration-300"
+            class="absolute inset-0 bg-black/85 backdrop-blur-md cursor-pointer transition-opacity duration-300"
           />
 
-          {/* Dialog Container */}
-          <div class="relative bg-[#221008] border border-[#cfa15c]/40 text-[#f5efe6] w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden z-10 transition-all duration-300 scale-100 max-h-[92vh] flex flex-col">
+          {/* Content Wrapper */}
+          <div class="relative bg-[#2c1a12] border border-[#dda86a]/40 text-[#fdfbf7] w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden z-10 transition-all duration-300 scale-100 max-h-[92vh] flex flex-col">
             
-            {/* Glowing top line */}
-            <div class="h-1 bg-gradient-to-r from-[#cfa15c]/10 via-[#cfa15c] to-[#cfa15c]/10 flex-none" />
+            {/* Glowing top accent border line */}
+            <div class="h-1 bg-gradient-to-r from-transparent via-[#dda86a] to-transparent flex-none" />
 
             {/* Header */}
-            <div class="p-6 md:p-8 border-b border-[#311c13] flex justify-between items-center flex-none">
+            <div class="p-6 border-b border-[#3b241b] flex justify-between items-center flex-none">
               <div class="flex items-center gap-3">
-                <Heart className="w-5 h-5 text-[#cfa15c] fill-[#cfa15c]" />
-                <h3 class="font-serif-lux text-xl md:text-2xl font-light tracking-wide">
+                <Heart className="w-5 h-5 text-[#dda86a] fill-[#dda86a]" />
+                <h3 class="font-serif-lux text-xl font-light tracking-wide">
                   Solicitar Reserva Especial
                 </h3>
               </div>
               <button 
                 onClick={closeReserveModal}
-                class="text-[#9c897f] hover:text-[#f5efe6] p-2 hover:bg-[#311c13] rounded-full transition cursor-pointer"
-                aria-label="Close dialog"
+                class="text-[#8a7266] hover:text-[#fdfbf7] p-1.5 hover:bg-[#3b241b] rounded-full transition cursor-pointer"
+                aria-label="Fecar modal"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Scrollable content container */}
+            {/* Scrollable form inside modal */}
             <div class="flex-1 overflow-y-auto p-6 md:p-8">
               
               {!isSuccess ? (
                 <form onSubmit={handleReservationSubmit} class="space-y-6">
                   
-                  {/* Informational luxury banner */}
-                  <div class="bg-[#180a05] border-l-2 border-[#cfa15c] p-3 rounded-r-lg flex gap-3 text-xs text-[#9c897f] leading-relaxed">
-                    <Info className="w-5 h-5 text-[#cfa15c] shrink-0" />
+                  {/* Alert Advice Info box */}
+                  <div class="bg-[#120905]/40 border-l-2 border-[#dda86a] p-3 rounded-r-lg flex gap-3 text-xs text-[#8a7266] leading-relaxed">
+                    <Info className="w-5 h-5 text-[#dda86a] shrink-0" />
                     <p>
-                      Preencha os dados abaixo do casal para solicitar a sua mesa exclusiva para o dia <strong>12 de Junho de 2026</strong>. Encaminharemos para atendimento prioritário via WhatsApp.
+                      Informe os dados do casal para agilizar sua pré-reserva VIP do dia <strong>12 de Junho</strong>. Após o envio você será redirecionado para concluir via WhatsApp.
                     </p>
                   </div>
 
-                  {/* Couples Name input */}
+                  {/* Field 1: Couples Name */}
                   <div>
-                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-medium text-[#cfa15c] mb-2 font-semibold">
+                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-semibold text-[#dda86a] mb-2">
                       Nome do Casal *
                     </label>
                     <input
@@ -726,15 +656,15 @@ export default function App() {
                       type="text"
                       value={coupleName}
                       onChange={(e) => setCoupleName(e.target.value)}
-                      placeholder="Ex: João e Maria de Souza"
-                      class="w-full bg-[#140602]/70 border border-[#cfa15c]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#cfa15c] focus:border-[#cfa15c] text-white placeholder-white/35 transition"
+                      placeholder="Ex: Pedro & Helena"
+                      class="w-full bg-[#120905]/50 border border-[#dda86a]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#dda86a] focus:border-[#dda86a] text-white placeholder-white/20 transition"
                     />
                   </div>
 
-                  {/* WhatsApp contact */}
+                  {/* Field 2: Whatsapp phone */}
                   <div>
-                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-medium text-[#cfa15c] mb-2 font-semibold">
-                      WhatsApp de Contato *
+                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-semibold text-[#dda86a] mb-2">
+                      WhatsApp para Contato *
                     </label>
                     <input
                       required
@@ -742,70 +672,67 @@ export default function App() {
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
                       placeholder="Ex: (11) 99999-9999"
-                      class="w-full bg-[#140602]/70 border border-[#cfa15c]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#cfa15c] focus:border-[#cfa15c] text-white placeholder-white/35 transition"
+                      class="w-full bg-[#120905]/50 border border-[#dda86a]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#dda86a] focus:border-[#dda86a] text-white placeholder-white/20 transition"
                     />
                   </div>
 
-                  {/* Dual Grid Selections for timing and location preference */}
+                  {/* Field 3 & 4: Time/Ambient preferentials */}
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     
-                    {/* Time Preferences selection */}
                     <div>
-                      <label class="block text-xs uppercase tracking-widest font-sans-lux font-medium text-[#cfa15c] mb-2 font-semibold">
-                        Horário Desejado
+                      <label class="block text-xs uppercase tracking-widest font-sans-lux font-semibold text-[#dda86a] mb-2">
+                        Horário de Entrada
                       </label>
                       <select
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
-                        class="w-full bg-[#140602] border border-[#cfa15c]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#cfa15c] focus:border-[#cfa15c] text-white transition cursor-pointer"
+                        class="w-full bg-[#120905] border border-[#dda86a]/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#dda86a] text-white cursor-pointer"
                       >
-                        <option value="19:00">19:00 - Recepção</option>
-                        <option value="19:30">19:30 - Serviço Inicial</option>
-                        <option value="21:00">21:00 - Jantar Especial</option>
-                        <option value="21:30">21:30 - Piano Noturno</option>
-                        <option value="22:30">22:30 - Saideira</option>
+                        <option value="19:00">19:00</option>
+                        <option value="19:30">19:30</option>
+                        <option value="21:00">21:00</option>
+                        <option value="21:30">21:30</option>
                       </select>
                     </div>
 
-                    {/* Ambience / Location selector within restaurant */}
                     <div>
-                      <label class="block text-xs uppercase tracking-widest font-sans-lux font-medium text-[#cfa15c] mb-2 font-semibold">
+                      <label class="block text-xs uppercase tracking-widest font-sans-lux font-semibold text-[#dda86a] mb-2">
                         Ambiente Preferido
                       </label>
                       <select
                         value={seating}
                         onChange={(e) => setSeating(e.target.value)}
-                        class="w-full bg-[#140602] border border-[#cfa15c]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#cfa15c] focus:border-[#cfa15c] text-white transition cursor-pointer"
+                        class="w-full bg-[#120905] border border-[#dda86a]/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#dda86a] text-white cursor-pointer"
                       >
-                        <option value="Piano Bar">Salão Piano Bar 🎹</option>
-                        <option value="Salão Nobre">Salão Clássico Nobre ✨</option>
-                        <option value="Jardim de Inverno">Jardim de Inverno 🌸</option>
-                        <option value="Varanda Intimista">Varanda Intimista 💕</option>
+                        <option value="Salão Piano Bar 🎹">Salão Piano Bar 🎹</option>
+                        <option value="Varanda Intimista 💕">Varanda Intimista 💕</option>
+                        <option value="Salão Clássico Nobre ✨">Salão Clássico Nobre ✨</option>
+                        <option value="Jardim de Inverno 🌸">Jardim de Inverno 🌸</option>
                       </select>
                     </div>
 
                   </div>
 
-                  {/* Special Requests / Dietary information */}
+                  {/* Field 5: Dietary and details requests */}
                   <div>
-                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-medium text-[#cfa15c] mb-2 font-semibold">
-                      Restrições Alimentares ou Observações
+                    <label class="block text-xs uppercase tracking-widest font-sans-lux font-semibold text-[#dda86a] mb-2">
+                      Observação ou Pedido Especial
                     </label>
                     <textarea
                       rows={2}
                       value={dietary}
                       onChange={(e) => setDietary(e.target.value)}
-                      placeholder="Ex: Um de nós é vegetariano / comemoração de aniversário"
-                      class="w-full bg-[#140602]/70 border border-[#cfa15c]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#cfa15c] focus:border-[#cfa15c] text-white placeholder-white/35 transition resize-none"
+                      placeholder="Ex: Preferência por mesa perto do piano / restrições a lactose"
+                      class="w-full bg-[#120905]/50 border border-[#dda86a]/25 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#dda86a] text-white placeholder-white/20 transition resize-none"
                     />
                   </div>
 
-                  {/* Submission triggers */}
+                  {/* Submit Button */}
                   <div class="pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      class="w-full bg-[#cfa15c] text-white hover:bg-[#e4be81] transition duration-300 disabled:opacity-50 rounded-full py-3.5 px-6 text-xs uppercase font-sans-lux tracking-[0.2em] font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                      class="w-full bg-[#dda86a] text-white hover:bg-[#e4be81] transition duration-300 disabled:opacity-50 rounded-full py-3.5 px-6 text-xs uppercase font-sans-lux tracking-[0.2em] font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                     >
                       {isSubmitting ? (
                         <span class="flex items-center gap-2">
@@ -813,11 +740,11 @@ export default function App() {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          Processando Mapeamento...
+                          Processando...
                         </span>
                       ) : (
                         <span class="flex items-center gap-2">
-                          Enviar Solicitação <ArrowRight class="w-4 h-4" />
+                          ENVIAR PRÉ-RESERVA <ArrowRight class="w-4 h-4" />
                         </span>
                       )}
                     </button>
@@ -826,72 +753,63 @@ export default function App() {
                 </form>
               ) : (
                 
-                // Succession Screen
+                // Success Voucher feedback visual
                 <div class="text-center py-6 px-4 flex flex-col items-center">
                   
-                  {/* Animated success icons */}
-                  <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500 flex items-center justify-center text-emerald-500 mb-6 animate-bounce">
+                  <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500 flex items-center justify-center text-emerald-500 mb-6">
                     <Check className="w-8 h-8" />
                   </div>
 
-                  <h4 class="font-serif-lux text-2xl text-white font-medium mb-3">
-                    Pré-Reserva Solicitada!
+                  <h4 class="font-serif-lux text-xl text-white font-medium mb-2">
+                    Voucher Pré-Reserva Iniciado!
                   </h4>
                   
-                  <p class="font-sans-lux text-sm text-[#9c897f] max-w-sm mb-8 leading-relaxed">
-                    Parabéns, {coupleName.split(' ')[0]}! Seus dados foram validados com sucesso no nosso sistema de reservas do <strong>Baby Beef Jardim</strong>.
+                  <p class="font-sans-lux text-xs text-[#8a7266] max-w-sm mb-8 leading-relaxed">
+                    Clique no botão abaixo para encaminhar a confirmação automática do casal para a recepção do Baby Beef Jardim.
                   </p>
 
-                  {/* Digital Invitation Pass / VIP Voucher mockup */}
-                  <div class="w-full max-w-sm bg-[#160a04] border border-[#cfa15c]/40 rounded-xl p-5 text-left mb-8 relative overflow-hidden shadow-2xl">
-                    <div class="absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full bg-[#cfa15c]/5 border border-[#cfa15c]/10" />
-                    
-                    <div class="flex justify-between items-center border-b border-[#2e1d15] pb-3 mb-4">
-                      <span class="text-[10px] uppercase font-sans-lux tracking-[0.2em] text-[#cfa15c] font-semibold">
+                  {/* VIP ticket envelope layout style card */}
+                  <div class="w-full max-w-sm bg-[#120905]/50 border border-[#dda86a]/30 rounded-xl p-5 text-left mb-8 relative overflow-hidden font-sans-lux text-xs">
+                    <div class="flex justify-between items-center border-b border-[#3b241b] pb-3 mb-4">
+                      <span class="text-[9px] uppercase tracking-[0.2em] text-[#dda86a] font-bold">
                         Voucher Pré-Reserva VIP
                       </span>
-                      <span class="text-xs font-sans-lux text-[#f5efe6] font-medium uppercase font-semibold">
-                        Nº {Math.floor(1000 + Math.random() * 9000)}
+                      <span class="text-white font-medium">
+                        Nº {Math.floor(2000 + Math.random() * 7999)}
                       </span>
                     </div>
 
-                    <div class="space-y-3 font-sans-lux text-xs text-[#9c897f]">
+                    <div class="space-y-2.5 text-[#8a7266]">
                       <div class="flex justify-between">
-                        <span>Casal Titular:</span>
+                        <span>Casal:</span>
                         <strong class="text-white font-medium">{coupleName}</strong>
                       </div>
                       <div class="flex justify-between">
-                        <span>Data do Evento:</span>
-                        <strong class="text-white font-medium">12 de Junho, 2026</strong>
+                        <span>Horário requisitado:</span>
+                        <strong class="text-[#dda86a] font-medium">{time}h</strong>
                       </div>
                       <div class="flex justify-between">
-                        <span>Horário de Entrada:</span>
-                        <strong class="text-[#cfa15c] font-medium">{time}h</strong>
-                      </div>
-                      <div class="flex justify-between">
-                        <span>Ambiente de Escolha:</span>
-                        <strong class="text-[#cfa15c] font-medium uppercase text-[10px] tracking-wide">{seating}</strong>
+                        <span>Ambiente sugerido:</span>
+                        <strong class="text-[#dda86a] font-medium">{seating}</strong>
                       </div>
                     </div>
-
                   </div>
 
-                  {/* Main Action WhatsApp Direct Redirect link */}
                   <div class="w-full space-y-3">
                     <a
                       href={getWhatsAppLink()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="w-full bg-[#25D366] text-white hover:bg-[#1ebd5d] transition duration-300 rounded-full py-3.5 px-6 text-xs uppercase font-sans-lux tracking-[0.2em] font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                      class="w-full bg-[#25D366] text-white hover:bg-[#1ebd5d] transition duration-300 rounded-full py-4 px-6 text-xs uppercase font-sans-lux tracking-[0.2em] font-bold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Falar no WhatsApp e Confirmar</span>
+                      <span>CONCLUIR NO WHATSAPP</span>
                     </a>
                     
                     <button
                       onClick={closeReserveModal}
-                      class="text-xs uppercase tracking-widest text-[#9c897f] hover:text-[#f5efe6] transition"
+                      class="text-[10px] uppercase tracking-widest text-[#8a7266] hover:text-[#fdfbf7] transition"
                     >
-                      Voltar ao Site
+                      VOLTAR AO SITE
                     </button>
                   </div>
 
