@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-script {
+    font-family: 'Great Vibes', cursive;
+  }
+  .font-serif-lux {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-sans-lux {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #1a0f0a; /* Deep rich chocolate/coffee dark background matching the image */
+  color: #f5efe6;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for an extra modern luxury touch */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #120906;
+}
+::-webkit-scrollbar-thumb {
+  background: #b89047;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #967232;
+}
+
