@@ -1,22 +1,26 @@
 @import "tailwindcss";
-
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
 @layer utilities {
   .font-script {
-    font-family: 'Great Vibes', cursive;
+    font-family: "Great Vibes", cursive;
   }
   .font-serif-lux {
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
   }
   .font-sans-lux {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "EB Garamond", serif;
   background-color: #1a0f0a; /* Deep rich chocolate/coffee dark background matching the image */
   color: #f5efe6;
   overflow-x: hidden;
+}
+
+.dm-serif {
+  font-family: "DM Serif Display", serif;
 }
 
 /* Custom scrollbar for an extra modern luxury touch */
@@ -33,4 +37,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #967232;
 }
-
